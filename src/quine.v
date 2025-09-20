@@ -1,4 +1,4 @@
-// Copyright (c) 2024 James Ross
+// copyright (c) 2024 james ross
 `default_nettype none
 module quine(
   input  wire clk,
@@ -25,12 +25,10 @@ module quine(
   wire [9:0] yb = pix_y / 9;
   wire [9:0] xx = (pix_x - 5 * xb);
   wire [9:0] yy = (pix_y - 9 * yb);
-  //wire [7:0] c = str[8*(31-xb[4:0])+:8]-32;
-  wire [7:0] c = str[8*xb[4:0]+:8]-32;
+  wire [7:0] c = str[8*(31-xb[4:0])+:8]-32;
+  //wire [7:0] c = str[8*xb[4:0]+:8]-32;
   wire [9:0] gy = {c, 2'b00} + {8'b0, xx[1:0]};
-  wire hl = (xx[2] || yy == 8)? 0 : g[yy[2:0]][gy[8:0]];
-
-  assign out = (video_active & hl);
+  assign out = (xx[2] || yy == 8)? 0 : g[yy[2:0]][gy[8:0]] & video_active;
 
   // glyphs
   reg [383:0] g[7:0];
@@ -45,8 +43,7 @@ module quine(
     g[7] = 384'h00000060000000810000020061000000f0000000000000c0000000000000000600001000000000000001002400020000;
   end
 
-  parameter N = 32;
-  //parameter [0:8*N-1] str = {"01234567890123456789012345678901"};
-  parameter [0:8*N-1] str = {"0123456789!ABCDEF@abcdef#$%^&*()"};
+  parameter n = 32;
+  parameter [8*n-1:0] str = {"01234567890123456789012345678901"};
 
 endmodule
