@@ -48,7 +48,8 @@ module tt_um_quine(
   $display("%d", str[31:0]);
   end
 */
-  wire [7:0] c = str[{1'b0, xb[4:0]}]-33;
+  //wire [7:0] c = str[{1'b0, xb[4:0]}]-33;
+  wire [7:0] c = str[8*(31-xb[4:0])+:8]-32;
   //wire [7:0] i = {3'b000, xb[4:0]};
   //wire [7:0] c = {str[i+7], str[i+6], str[i+5], str[i+4], str[i+3], str[i+2], str[i+1], str[i+0] };
 /*  always @(posedge vsync) begin
@@ -65,7 +66,7 @@ module tt_um_quine(
   wire [9:0] gy = {c, 2'b00} + {8'b0, xx[1:0]};
   wire hl = (xx[2] || yy == 8)? 0 : g[yy[2:0]][gy[8:0]];
 
-  assign RGB = (video_active & hl) ? 6'b001100 : 6'b000000;
+  assign RGB = (video_active & hl) ? 6'b111111 : 6'b000000;
 
   // glyphs
   reg [383:0] g[7:0];
@@ -83,7 +84,8 @@ module tt_um_quine(
   // This is a test!
 //  reg [8*16:0] str;
   parameter N = 32;
-  reg [7:0] str[0:N] = "01234567890123456789012345678901";
+  //reg [7:0] str[0:N] = "01234567890123456789012345678901";
+  parameter [8*N-1:0] str = {"01234567890123456789012345678901"};
   //reg [8*32-1:0] str = 256'h3031323334353637383930313233343536373839303132333435363738393031;
 /*
   reg [7:0] str[0:N];
