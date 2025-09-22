@@ -11,12 +11,11 @@ module tt_um_quine(
   input  wire       rst_n
 );
   assign uo_out = {hsync, out, out, out, vsync, out, out, out};
-  wire _unused = &{ena, ui_in, uio_in};
-  assign {uio_out, uio_oe}  = 0;
+  wire _unused = &{ui_in, uio_in, ena, rst_n};
+  assign {uio_out, uio_oe} = 0;
   wire hsync, vsync, out;
   quine quine_gen(
     .clk(clk),
-    .rst_n(rst_n),
     .hsync(hsync),
     .vsync(vsync),
     .out(out)
