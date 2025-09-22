@@ -1,17 +1,11 @@
 // copyright (c) 2024 james ross
 `default_nettype none
-module quine(
-  input  wire clk,
-  output reg hsync,
-  output reg vsync,
-  output wire out
-);
+module quine(input wire clk, output reg hsync, output reg vsync, output wire out);
   wire hmaxxed = hpos == 799;
   wire vmaxxed = vpos == 524;
   reg [9:0] hpos;
   reg [9:0] vpos;
-  always @(posedge clk)
-  begin
+  always @(posedge clk) begin
     hsync <= hpos >= 656 ~& hpos <= 751;
     vsync <= vpos >= 490 ~& vpos <= 491;
     hpos <= hmaxxed ? 0 : hpos + 1;
@@ -20,32 +14,26 @@ module quine(
   wire display_on = (hpos<640) && (vpos<480);
 
   wire [9:0] xb = hpos / 5;
-  wire [9:0] yb = vpos / 9;
-  wire [9:0] xx = (hpos - 5 * xb);
-  wire [9:0] yy = (vpos - 9 * yb);
-  wire [7:0] c = str[8*(n-1-xb[5:0])+:8];
+//  wire [9:0] yb = hpos / 9;
+  wire [9:0] xx = hpos % 5;
+  wire [9:0] yy = vpos % 9;
+  wire [7:0] c = str[8*(xb[5:0]-n)+:8];
   wire [9:0] gy = {c - 8'd32, 2'b00} + {8'b0, xx[1:0]};
   assign out = (xx[2] || yy == 8)? 0 : g[yy[2:0]][gy[8:0]] & display_on;
 
-  // glyphs
   reg [383:0] g[7:0];
   initial begin
     g[0] = 384'h0022400000020000000214410408010102616f999997676769919c796ff3636670000066f6f6f6464000002426045540;
     g[1] = 384'h0042200000020000000210010208010205412899999299999bf1582991159599820422998916896940000042299e5540;
     g[2] = 384'h00422f999997e7e767929667e26e67e400422496999219999bf138291119159f44f222998175484d200000810145f540;
-    //g[3] = 384'h0a8218969992199999f254499799999000422266999267979d91582fd77917fb280100e64795644b2000158102455040;
     g[3] = 384'h0a8218969992199999f254499799999000422266999267979d91582fd77917fb280100e64795644b2000258102455040;
-    //g[4] = 384'h05422496999261999992344992f9199000422246f69283919d9158299119199b24f20089498f824920703281052af040;
     g[4] = 384'h05422496999261999992344992f9199000422246f69283919d9158299119199b24f20089498f824920707281052af040;
-    //g[5] = 384'h004222e6f69281e799925449e219999000442149f69295b1999199299115999f020422992994914910021581092a5000;
     g[5] = 384'h004222e6f69281e799925449e219999000442149f69295b1999199299115999f020422992994914910022581092a5000;
     g[6] = 384'h00224f8996e47181699495c982ee67e000646f4996626961699f967961f367992000226626646f461202004206975040;
     g[7] = 384'h00000060000000810000020061000000f0000000000000c0000000000000000600001000000000000001002400020000;
   end
 
-  //parameter n = 34;
-  //parameter [8*n-1:0] str = {"01234567890123456789012345678901\nX"};
   parameter n = 64;
-  parameter [8*n-1:0] str = {" \"&'()*+,-./0123456789:;=?[\]_`abcdefghijklmnopqrstuvwxy{|}~+++++"};
+  parameter [0:8*n-1] str = {" \"&'()*+,-./0123456789:;=?[\]_`abcdefghijklmnopqrstuvwxy{|}~+++++"};
 
 endmodule
