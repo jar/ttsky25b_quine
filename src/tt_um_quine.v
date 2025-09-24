@@ -12,7 +12,7 @@ module tt_um_quine(
 );
   wire _unused = &{ui_in, uio_in, ena, rst_n};
   assign {uio_out, uio_oe} = 0;
-  wire hsync, vsync, out;
-  quine q(.clk(clk), .hsync(hsync), .vsync(vsync), .out(out));
-  assign uo_out = {hsync, {3{out}}, vsync, {3{out}}};
+  wire u, v, p;
+  q q(.k(clk), .u(u), .v(v), .p(p));
+  assign uo_out = {u, {3{p}}, v, {3{p}}};
 endmodule
