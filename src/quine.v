@@ -53,11 +53,8 @@ module quine(input wire clk, output reg hsync, output reg vsync, output wire out
     g[7] = 384'hf0000060000000810000020061000000f0080000000000c0000000000000000620001000000000001001002400020000;
   end
 
-endmodule
 parameter w = 8;
-//parameter n = 64;
-//parameter [0:w*n-1] str = {" \"%&'()*+,-/0123456789:;\n<=>?@[]_abcdefghijklmnopqrstuvwxy{|}~++"};
-//parameter [0:w*n-1] str = {"1234567890123456789012345678901234567890123456789012345678901234"};
-//parameter [0:w*n-1] str = {"line 0;\nline 1;\nline 2;\nline 3;\nline 4;\nline 5;\nline 6;\nline 7;\n"};
 parameter n = 234;
 parameter [0:w*n-1] str = {"`default_nettype none // copyright (c) 2025 james rossXmodule quine(input wire clk, output reg hsync, output reg vsync, output wire out);X  wire hmaxxed = hpos == 799;X  wire vmaxxed = vpos == 524;X  reg [9:0] hpos;X  reg [9:0] vpos;X"};
+
+endmodule
