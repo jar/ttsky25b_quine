@@ -37,7 +37,7 @@ module quine(input wire clk, output reg hsync, output reg vsync, output wire out
   wire [3:0] yy = vpos % 9;
   //wire [7:0] c = str[w*(xb[5:0]-n)+:w];
   wire [7:0] c = str[w*cpos+:w];
-  assign nl = c == 10;// '\n';
+  assign nl = c == 88; // XXX using "X" in place of newline character
   wire [9:0] gy = {c - 8'd32, 2'b00} + {8'b0, xx[1:0]};
   assign out = (xx[2] || yy == 8 || nl) ? 0 : g[yy[2:0]][gy[8:0]] & display_on;
 
@@ -59,7 +59,5 @@ parameter w = 8;
 //parameter [0:w*n-1] str = {" \"%&'()*+,-/0123456789:;\n<=>?@[]_abcdefghijklmnopqrstuvwxy{|}~++"};
 //parameter [0:w*n-1] str = {"1234567890123456789012345678901234567890123456789012345678901234"};
 //parameter [0:w*n-1] str = {"line 0;\nline 1;\nline 2;\nline 3;\nline 4;\nline 5;\nline 6;\nline 7;\n"};
-//parameter n = 138;
-//parameter [0:w*n-1] str = {"`default_nettype none // copyright (c) 2025 james ross\nmodule quine(input wire clk, output reg hsync, output reg vsync, output wire out);\n"};
 parameter n = 234;
-parameter [0:w*n-1] str = {"`default_nettype none // copyright (c) 2025 james ross\nmodule quine(input wire clk, output reg hsync, output reg vsync, output wire out);\n  wire hmaxxed = hpos == 799;\n  wire vmaxxed = vpos == 524;\n  reg [9:0] hpos;\n  reg [9:0] vpos;\n"};
+parameter [0:w*n-1] str = {"`default_nettype none // copyright (c) 2025 james rossXmodule quine(input wire clk, output reg hsync, output reg vsync, output wire out);X  wire hmaxxed = hpos == 799;X  wire vmaxxed = vpos == 524;X  reg [9:0] hpos;X  reg [9:0] vpos;X"};
